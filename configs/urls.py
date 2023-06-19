@@ -1,11 +1,8 @@
-from django.contrib import admin
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from cars.views import CarViewSet
+from django.urls import path
 
-router = DefaultRouter()
-router.register(r'cars', CarViewSet)
+from cars.views import CarListCreateView, CarRetrieveUpdateDestroyView
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('cars', CarListCreateView.as_view()),
+    path('cars/<int:pk>', CarRetrieveUpdateDestroyView.as_view()),
 ]
