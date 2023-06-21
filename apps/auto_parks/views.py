@@ -5,27 +5,21 @@ from rest_framework.response import Response
 from rest_framework.mixins import ListModelMixin, CreateModelMixin
 
 from .models import AutoParkModel
-from apps.auto_parks.serializer import AutoParkSerializer
 from apps.cars.serializers import CarSerializer
 from apps.cars.models import CarModel
+from .serializer import AutoParkSerializer
+from rest_framework import generics
 
 
-class AutoParkListCreateView(GenericAPIView, ListModelMixin, CreateModelMixin):
+class AutoParkListCreateView(generics.ListCreateAPIView):
     serializer_class = AutoParkSerializer
     queryset = AutoParkModel.objects.all()
-
-    def get(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
-
 
 
 class AutoParkCarListCreateView(GenericAPIView):
     queryset = AutoParkModel.objects.all()
 
-    def get(self, *args, **kwargs):
+    def get(*args, **kwargs):
         pk = kwargs['pk']
 
         if not AutoParkModel.objects.filter(pk=pk).exists():
